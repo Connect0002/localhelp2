@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --font-sans: 'DM Sans', system-ui, sans-serif; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font-sans); background-color: #F8F8FA; color: #0A0A0F; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #F0F0F5; }
+::-webkit-scrollbar-thumb { background: #CDCDE0; border-radius: 3px; }
+:focus-visible { outline: 2px solid #2563EB; outline-offset: 2px; border-radius: 6px; }
+
+.star-filled { color: #F59E0B; }
+.star-empty { color: #E2E2EE; }
+
+.hero-pattern {
+  background-color: #05050D;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% 60%, rgba(37,99,235,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 85% 30%, rgba(124,58,237,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 60% 80%, rgba(16,185,129,0.08) 0%, transparent 50%);
+}
+.hero-grid {
+  background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.card-hover { transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease; }
+.card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+
+.gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #A5C8FF 50%, #C4B5FD 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+@keyframes shimmer { 0% { background-position: -400% 0; } 100% { background-position: 400% 0; } }
+.skeleton {
+  background: linear-gradient(90deg, #EBEBF5 25%, #F5F5FF 50%, #EBEBF5 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.8s infinite;
+  border-radius: 8px;
+}
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { animation: fadeUp 0.4s ease forwards; }
+
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+.scale-in { animation: scaleIn 0.25s ease forwards; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.glass { background: rgba(255,255,255,0.07); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); }
