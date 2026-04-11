@@ -12,52 +12,61 @@ interface Props {
 }
 
 export default function ProviderCard({ provider: p, requestStatus, onRequest, currentUserId }: Props) {
-  const isOwnProfile = currentUserId === p.id
+  const isOwn = currentUserId === p.id
 
   return (
-    <div className="card card-hover" style={{ marginBottom: 10 }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 12 }}>
-        <Avatar name={p.name} avatarUrl={p.avatar_url} size={48} />
+    <div className="provider-card fade-in">
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 13, marginBottom: 13 }}>
+        <Avatar name={p.name} avatarUrl={p.avatar_url} size={52} />
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-            <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 15, color: 'var(--t1)' }}>{p.name}</p>
-            <span className={`badge ${p.is_available ? 'badge-ok' : 'badge-neutral'}`}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 6, marginBottom: 3 }}>
+            <p className="font-display" style={{ fontWeight: 700, fontSize: 16, color: 'var(--t1)', lineHeight: 1.2 }}>{p.name}</p>
+            <span className={`badge ${p.is_available ? 'badge-ok' : 'badge-neutral'}`} style={{ flexShrink: 0, marginTop: 2 }}>
               <span className={`dot ${p.is_available ? 'dot-ok' : 'dot-busy'}`} />
               {p.is_available ? 'Available' : 'Busy'}
             </span>
           </div>
-          <p style={{ fontSize: 13, color: 'var(--t2)', marginTop: 3 }}>{p.city}, {p.state}</p>
-          {p.rating > 0 && (
-            <p style={{ fontSize: 12, color: 'var(--t3)', marginTop: 2 }}>
-              ★ {p.rating.toFixed(1)} · {p.review_count} reviews
-            </p>
-          )}
+          <p style={{ fontSize: 13, color: 'var(--t3)', fontWeight: 500 }}>
+            📍 {p.city}, {p.state}
+            {p.rating > 0 && <span style={{ marginLeft: 10 }}>⭐ {p.rating.toFixed(1)} <span style={{ color: 'var(--t4)' }}>({p.review_count})</span></span>}
+          </p>
         </div>
       </div>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 12 }}>
-        {p.services.map(s => <span key={s} className="tag">{s}</span>)}
+      <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: 11 }}>
+        {p.services.slice(0, 3).map(s => <span key={s} className="tag">{s}</span>)}
+        {p.services.length > 3 && <span className="tag" style={{ background: 'var(--card3)', color: 'var(--t2)' }}>+{p.services.length - 3}</span>}
       </div>
 
       {p.description && (
-        <p style={{ fontSize: 13, color: 'var(--t2)', marginBottom: 12, lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+        <p style={{ fontSize: 13, color: 'var(--t2)', marginBottom: 14, lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {p.description}
         </p>
+      )}
+
+      {p.price_range && (
+        <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--acc)', marginBottom: 14 }}>{p.price_range}</p>
       )}
 
       <div style={{ display: 'flex', gap: 8 }}>
         <Link href={`/providers/${p.id}`} className="btn btn-ghost btn-sm" style={{ flex: 1 }}>
           View Profile
         </Link>
-        {isOwnProfile ? (
-          <span className="btn btn-ghost btn-sm" style={{ flex: 1, opacity: 0.4, cursor: 'default', fontSize: 12 }}>Your Profile</span>
+        {isOwn ? (
+          <span className="btn btn-sm" style={{ flex: 1, background: 'var(--card3)', color: 'var(--t3)', cursor: 'default', fontSize: 12, fontWeight: 600 }}>
+            Your Profile
+          </span>
         ) : requestStatus === 'pending' ? (
-          <button className="btn btn-ghost btn-sm" style={{ flex: 1, opacity: 0.6 }} disabled>Pending…</button>
+          <button className="btn btn-sm" style={{ flex: 1, background: 'var(--warn-lt)', color: 'var(--warn)', cursor: 'default', border: 'none' }} disabled>
+            ⏳ Pending
+          </button>
         ) : requestStatus === 'accepted' ? (
-          <button className="btn btn-ghost btn-sm" style={{ flex: 1, color: 'var(--ok)' }}>✓ Connected</button>
+          <button className="btn btn-sm" style={{ flex: 1, background: 'var(--ok-lt)', color: 'var(--ok)', border: 'none' }}>
+            ✓ Connected
+          </button>
         ) : (
           <button className="btn btn-primary btn-sm" style={{ flex: 1 }} onClick={() => onRequest(p)}>
-            Request Connect
+            Connect
           </button>
         )}
       </div>
