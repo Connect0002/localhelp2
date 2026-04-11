@@ -77,7 +77,7 @@ export default function DiscoverPage() {
   }
 
   const handleRequest = async (p: Provider) => {
-    if (!user) return
+    if (!user || user.id === p.id) return   // guard: no self-requests
     if (requestStatuses[p.id]) return
 
     const allowed = await supabase.rpc('check_daily_request_limit', { p_user_id: user.id })
@@ -139,7 +139,13 @@ export default function DiscoverPage() {
         ) : (
           <>
             {providers.map(p => (
-              <ProviderCard key={p.id} provider={p} requestStatus={requestStatuses[p.id]} onRequest={handleRequest} />
+              <ProviderCard
+                key={p.id}
+                provider={p}
+                requestStatus={requestStatuses[p.id]}
+                onRequest={handleRequest}
+                currentUserId={user?.id}
+              />
             ))}
             {hasMore && !fetching && (
               <button className="btn btn-ghost btn-full" style={{ marginTop: 8 }} onClick={loadMore}>Load more</button>

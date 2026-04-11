@@ -8,9 +8,12 @@ interface Props {
   provider: Provider
   requestStatus?: string
   onRequest: (p: Provider) => void
+  currentUserId?: string
 }
 
-export default function ProviderCard({ provider: p, requestStatus, onRequest }: Props) {
+export default function ProviderCard({ provider: p, requestStatus, onRequest, currentUserId }: Props) {
+  const isOwnProfile = currentUserId === p.id
+
   return (
     <div className="card card-hover" style={{ marginBottom: 10 }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 12 }}>
@@ -46,7 +49,9 @@ export default function ProviderCard({ provider: p, requestStatus, onRequest }: 
         <Link href={`/providers/${p.id}`} className="btn btn-ghost btn-sm" style={{ flex: 1 }}>
           View Profile
         </Link>
-        {requestStatus === 'pending' ? (
+        {isOwnProfile ? (
+          <span className="btn btn-ghost btn-sm" style={{ flex: 1, opacity: 0.4, cursor: 'default', fontSize: 12 }}>Your Profile</span>
+        ) : requestStatus === 'pending' ? (
           <button className="btn btn-ghost btn-sm" style={{ flex: 1, opacity: 0.6 }} disabled>Pending…</button>
         ) : requestStatus === 'accepted' ? (
           <button className="btn btn-ghost btn-sm" style={{ flex: 1, color: 'var(--ok)' }}>✓ Connected</button>

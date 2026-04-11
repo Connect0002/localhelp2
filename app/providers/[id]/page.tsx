@@ -18,6 +18,7 @@ export default function ProviderProfilePage() {
   const [chatId, setChatId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [requesting, setRequesting] = useState(false)
+  const isOwnProfile = user?.id === id
   const [reporting, setReporting] = useState(false)
 
   useEffect(() => {
